@@ -25,6 +25,8 @@ services:
  
  and running `docker-compose run consul-agent-members` just works.
  
+ Support for setting other consul-cli options via environment variables is not yet done.
+ 
  Below is the original readme from [https://github.com/CiscoCloud/consul-cli](https://github.com/CiscoCloud/consul-cli) 
  
 
