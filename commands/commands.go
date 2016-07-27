@@ -40,7 +40,8 @@ func Init(name, version string) *Cmd {
 		},
 	}
 
-	c.root.PersistentFlags().StringVar(&c.consul.address, "consul", "127.0.0.1:8500", "Consul address:port")
+	// todo: allow all flags to be set via env vars
+	c.root.PersistentFlags().StringVar(&c.consul.address, "consul", envOrDefault("CONSUL_CLI_CONSUL", "127.0.0.1:8500"), "Consul address:port")
 	c.root.PersistentFlags().BoolVar(&c.consul.sslEnabled, "ssl", false, "Use HTTPS when talking to Consul")
 	c.root.PersistentFlags().BoolVar(&c.consul.sslVerify, "ssl-verify", true, "Verify certificates when connecting via SSL")
 	c.root.PersistentFlags().StringVar(&c.consul.sslCert, "ssl-cert", "", "Path to an SSL client certificate for authentication")
@@ -86,6 +87,19 @@ func (c *Cmd) AddCommand(cmd *cobra.Command) {
 
 func (c *Cmd) AddTemplateOption(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&c.Template, "template", "", "Output template. Use @filename to read template from a file")
+}
+
+// todo: Support non-string type
+func envOrDefault(name string, _default ...string) string {
+	var used string
+	if len(os.Getenv(name)) > 0 {
+		used = os.Getenv(name)
+	} else {
+		if len(_default) > 0 {
+			used = _default[0]
+		}
+	}
+	return used
 }
 
 type funcVar func(s string) error
