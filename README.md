@@ -14,7 +14,7 @@ services:
     image: consul
     command: agent -server -dev
 
-  consul-cli
+  consul-cli:
     image: cliffordkeeney/consul-cli
     depends_on:
       - consul
