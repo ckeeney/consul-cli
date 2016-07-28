@@ -14,7 +14,7 @@ services:
     image: consul
     command: agent -server -dev
 
-  consul-agent-members:
+  consul-cli
     image: cliffordkeeney/consul-cli
     depends_on:
       - consul
@@ -23,7 +23,7 @@ services:
     command: agent members
 ```
  
- and running `docker-compose run consul-agent-members` just works.
+ and running `docker-compose run consul-cli agent members` just works.
  
  Support for setting other consul-cli options via environment variables is not yet done.
  
